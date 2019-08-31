@@ -6,7 +6,10 @@ package aho.uozu.auctionsniper;
  */
 public class App 
 {
-    public static void main( String[] args )
+    public static final String MAIN_WINDOW_NAME = "asdf";
+    public static final String SNIPER_STATUS_NAME = "sniper status";
+
+    public static void main(String xmppHostname, String sniperId, String sniperPassword, String itemId)
     {
         System.out.println( "Hello World!" );
     }

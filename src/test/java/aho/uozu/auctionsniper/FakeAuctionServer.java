@@ -1,5 +1,13 @@
 package aho.uozu.auctionsniper;
 
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManagerListener;
+import org.jivesoftware.smack.XMPPConnection;
+import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Message;
+
+import static java.lang.String.format;
+
 public class FakeAuctionServer {
     public static final String ITEM_ID_AS_LOGIN = "auction-%s";
     public static final String AUCTION_RESOURCE = "Auction";
@@ -35,11 +43,12 @@ public class FakeAuctionServer {
     public void hasReceivedJoinRequestFromSniper() throws InterruptedException {
         messageListener.receivesAMessage();
     }
+
     public void announceClosed() throws XMPPException {
         currentChat.sendMessage(new Message());
     }
+
     public void stop() {
         connection.disconnect();
     }
-
 }

@@ -25,6 +25,24 @@
       <version>4.11</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-library</artifactId>
+      <version>1.3</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.igniterealtime.smack</groupId>
+      <artifactId>smack</artifactId>
+      <version>3.2.1</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.googlecode.windowlicker</groupId>
+      <artifactId>windowlicker-swing</artifactId>
+      <version>r268</version>
+    </dependency>
+
   </dependencies>
 
   <build>
