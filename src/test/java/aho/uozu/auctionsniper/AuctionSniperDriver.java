@@ -7,7 +7,7 @@ import com.objogate.wl.swing.gesture.GesturePerformer;
 
 import static org.hamcrest.Matchers.equalTo;
 
-public class AuctionSniperDriver extends JFrameDriver {
+class AuctionSniperDriver extends JFrameDriver {
 
     AuctionSniperDriver(int timeoutMillis) {
         super(new GesturePerformer(),

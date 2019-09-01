@@ -27,7 +27,7 @@ public class App
     @SuppressWarnings("unused")
     private Chat notToBeGCd;
 
-    public App() throws Exception {
+    private App() throws Exception {
         startUserInterface();
     }
 
