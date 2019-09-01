@@ -7,6 +7,7 @@ import java.awt.*;
 public class MainWindow extends JFrame {
     public static final String SNIPER_STATUS_NAME = "sniper status";
     public static final String STATUS_JOINING = "joining";
+    public static final String STATUS_LOST = "lost";
 
     private final JLabel sniperStatus = createLabel(STATUS_JOINING);
 
@@ -16,6 +17,10 @@ public class MainWindow extends JFrame {
         add(sniperStatus);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
+    }
+
+    public void showStatus(String status) {
+        sniperStatus.setText(status);
     }
 
     private static JLabel createLabel(String initialText) {

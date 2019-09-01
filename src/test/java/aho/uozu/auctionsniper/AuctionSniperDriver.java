@@ -9,7 +9,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class AuctionSniperDriver extends JFrameDriver {
 
-    public AuctionSniperDriver(int timeoutMillis) {
+    AuctionSniperDriver(int timeoutMillis) {
         super(new GesturePerformer(),
                 JFrameDriver.topLevelFrame(
                         named(App.MAIN_WINDOW_NAME),
@@ -17,12 +17,8 @@ public class AuctionSniperDriver extends JFrameDriver {
                 new AWTEventQueueProber(timeoutMillis, 100));
     }
 
-    public void showsSniperStatus(String statusText) {
+    void showsSniperStatus(String statusText) {
         new JLabelDriver(
                 this, named(App.SNIPER_STATUS_NAME)).hasText(equalTo(statusText));
-    }
-
-    public void dispose() {
-        throw new IllegalStateException();
     }
 }
