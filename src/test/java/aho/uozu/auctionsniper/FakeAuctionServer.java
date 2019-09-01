@@ -25,8 +25,7 @@ public class FakeAuctionServer {
 
     public void startSellingItem() throws XMPPException {
         connection.connect();
-        connection.login(format(ITEM_ID_AS_LOGIN, itemId),
-                AUCTION_PASSWORD, AUCTION_RESOURCE);
+        connection.login(format(ITEM_ID_AS_LOGIN, itemId), AUCTION_PASSWORD, AUCTION_RESOURCE);
         connection.getChatManager().addChatListener(
                 new ChatManagerListener() {
                     public void chatCreated(Chat chat, boolean createdLocally) {
