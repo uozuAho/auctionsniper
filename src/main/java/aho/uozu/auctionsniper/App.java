@@ -1,10 +1,8 @@
 package aho.uozu.auctionsniper;
 
 import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.packet.Message;
 
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
@@ -53,6 +51,10 @@ public class App implements AuctionEventListener
                 ui.showStatus(MainWindow.STATUS_LOST);
             }
         });
+    }
+
+    @Override
+    public void currentPrice(int price, int increment) {
     }
 
     private void startUserInterface() throws Exception {
