@@ -10,7 +10,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class App
+public class App implements AuctionEventListener
 {
     public static final String MAIN_WINDOW_NAME = "Auction Sniper App";
     public static final String SNIPER_STATUS_NAME = "sniper status";
@@ -46,6 +46,15 @@ public class App
         main.joinAuction(connection, args[ARG_ITEM_ID]);
     }
 
+    @Override
+    public void auctionClosed() {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                ui.showStatus(MainWindow.STATUS_LOST);
+            }
+        });
+    }
+
     private void startUserInterface() throws Exception {
         SwingUtilities.invokeAndWait(new Runnable() {
             public void run() {
@@ -58,15 +67,7 @@ public class App
         disconnectWhenUICloses(connection);
         final Chat chat = connection.getChatManager().createChat(
                 auctionId(itemId, connection),
-                new MessageListener() {
-                    public void processMessage(Chat aChat, Message message) {
-                        SwingUtilities.invokeLater(new Runnable() {
-                            public void run() {
-                                ui.showStatus(MainWindow.STATUS_LOST);
-                            }
-                        });
-                    }
-                });
+                new AuctionMessageTranslator(this));
         this.notToBeGCd = chat;
         chat.sendMessage(JOIN_COMMAND_FORMAT);
     }
