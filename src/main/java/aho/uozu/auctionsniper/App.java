@@ -55,6 +55,11 @@ public class App implements SniperListener
 
     @Override
     public void sniperBidding() {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                ui.showStatus(MainWindow.STATUS_BIDDING);
+            }
+        });
     }
 
     private void startUserInterface() throws Exception {
