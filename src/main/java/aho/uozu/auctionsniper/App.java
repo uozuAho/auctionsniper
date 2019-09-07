@@ -7,6 +7,8 @@ import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Message;
 
 import javax.swing.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class App
 {
@@ -16,6 +18,8 @@ public class App
     public static final String AUCTION_RESOURCE = "Auction";
     public static final String ITEM_ID_AS_LOGIN = "auction-%s";
     public static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
+    public static final String JOIN_COMMAND_FORMAT = "join format";
+    public static final String BID_COMMAND_FORMAT = "bid format";
 
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
@@ -51,6 +55,7 @@ public class App
     }
 
     private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
+        disconnectWhenUICloses(connection);
         final Chat chat = connection.getChatManager().createChat(
                 auctionId(itemId, connection),
                 new MessageListener() {
@@ -63,7 +68,7 @@ public class App
                     }
                 });
         this.notToBeGCd = chat;
-        chat.sendMessage(new Message());
+        chat.sendMessage(JOIN_COMMAND_FORMAT);
     }
 
     private static XMPPConnection connectTo(String hostname, String username, String password) throws XMPPException
@@ -72,6 +77,14 @@ public class App
         connection.connect();
         connection.login(username, password, AUCTION_RESOURCE);
         return connection;
+    }
+
+    private void disconnectWhenUICloses(final XMPPConnection connection) {
+        ui.addWindowListener(new WindowAdapter() {
+            @Override public void windowClosed(WindowEvent e) {
+                connection.disconnect();
+            }
+        });
     }
 
     private static String auctionId(String itemId, XMPPConnection connection) {

@@ -1,5 +1,7 @@
 package aho.uozu.auctionsniper;
 
+import java.lang.instrument.IllegalClassFormatException;
+
 public class ApplicationRunner {
 
     public static final String SNIPER_ID = "sniper";
@@ -7,6 +9,7 @@ public class ApplicationRunner {
     public static final String XMPP_HOSTNAME = "localhost";
     public static final String STATUS_JOINING = "joining";
     public static final String STATUS_LOST = "lost";
+    public static final String SNIPER_XMPP_ID = "sniper@host.xmpp.internal/Auction";
 
     private AuctionSniperDriver driver;
 
@@ -34,6 +37,10 @@ public class ApplicationRunner {
         if (driver != null) {
             driver.dispose();
         }
+    }
+
+    public void hasShownSniperIsBidding() {
+        driver.showsSniperStatus(MainWindow.STATUS_BIDDING);
     }
 }
 

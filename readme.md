@@ -20,4 +20,5 @@ Following along the example in "Growing OO software guided by tests".
 
 # To do
 
+- install, configure and run openfire automatically (docker??)
 - check that fresh checkout can build without intellij
