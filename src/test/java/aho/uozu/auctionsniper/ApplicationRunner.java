@@ -1,7 +1,5 @@
 package aho.uozu.auctionsniper;
 
-import java.lang.instrument.IllegalClassFormatException;
-
 public class ApplicationRunner {
 
     public static final String SNIPER_ID = "sniper";
