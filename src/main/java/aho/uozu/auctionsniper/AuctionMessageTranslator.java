@@ -9,7 +9,7 @@ import java.util.HashMap;
 public class AuctionMessageTranslator implements MessageListener {
     private final AuctionEventListener listener;
 
-    public AuctionMessageTranslator(AuctionEventListener listener) {
+    public AuctionMessageTranslator(String user, AuctionEventListener listener) {
         this.listener = listener;
     }
 

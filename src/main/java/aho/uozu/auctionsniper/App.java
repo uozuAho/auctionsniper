@@ -75,7 +75,9 @@ public class App implements SniperListener
         final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
         this.notToBeGCd = chat;
         Auction auction = new XMPPAuction(chat);
-        chat.addMessageListener(new AuctionMessageTranslator(new AuctionSniper(auction, this)));
+        chat.addMessageListener(new AuctionMessageTranslator(
+                connection.getUser(),
+                new AuctionSniper(auction, new SniperStateDisplayer())));
         auction.join();
     }
 
@@ -125,4 +127,24 @@ public class App implements SniperListener
         }
     }
 
+    public class SniperStateDisplayer implements SniperListener {
+
+        public void sniperBidding() {
+            showStatus(MainWindow.STATUS_BIDDING);
+        }
+
+        public void sniperLost() {
+            showStatus(MainWindow.STATUS_LOST);
+        }
+
+        public void sniperWinning() {
+//            showStatus(MainWindow.STATUS_WINNING);
+        }
+
+        private void showStatus(final String status) {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() { ui.showStatus(status); }
+            });
+        }
+    }
 }

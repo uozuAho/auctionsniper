@@ -11,11 +11,12 @@ import org.junit.Test;
 
 public class AuctionMessageTranslatorTest {
     public static final Chat UNUSED_CHAT = null;
+    public static final String UNUSED_USERNAME = null;
 
     @Rule
     public final JUnitRuleMockery context = new JUnitRuleMockery();
     private final AuctionEventListener listener = context.mock(AuctionEventListener.class);
-    private final AuctionMessageTranslator translator = new AuctionMessageTranslator(listener);
+    private final AuctionMessageTranslator translator = new AuctionMessageTranslator(UNUSED_USERNAME, listener);
 
     @Test
     public void notifiesAuctionClosedWhenCloseMessageReceived() {
