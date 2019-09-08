@@ -1,6 +1,7 @@
 package aho.uozu.auctionsniper.tests;
 
 import aho.uozu.auctionsniper.Auction;
+import aho.uozu.auctionsniper.AuctionEventListener;
 import aho.uozu.auctionsniper.AuctionSniper;
 import aho.uozu.auctionsniper.SniperListener;
 import org.jmock.Expectations;
@@ -30,6 +31,6 @@ public class AuctionSniperTest {
             oneOf(auction).bid(price + increment);
             atLeast(1).of(sniperListener).sniperBidding();
         }});
-        sniper.currentPrice(price, increment);
+        sniper.currentPrice(price, increment, AuctionEventListener.PriceSource.FromOtherBidder);
     }
 }

@@ -7,10 +7,15 @@ import org.jivesoftware.smack.packet.Message;
 import java.util.HashMap;
 import java.util.Map;
 
+import static aho.uozu.auctionsniper.AuctionEventListener.PriceSource.FromOtherBidder;
+import static aho.uozu.auctionsniper.AuctionEventListener.PriceSource.FromSniper;
+
 public class AuctionMessageTranslator implements MessageListener {
+    private final String sniperId;
     private final AuctionEventListener listener;
 
-    public AuctionMessageTranslator(String user, AuctionEventListener listener) {
+    public AuctionMessageTranslator(String sniperId, AuctionEventListener listener) {
+        this.sniperId = sniperId;
         this.listener = listener;
     }
 
@@ -20,7 +25,10 @@ public class AuctionMessageTranslator implements MessageListener {
         if ("CLOSE".equals(eventType)) {
             listener.auctionClosed();
         } if ("PRICE".equals(eventType)) {
-            listener.currentPrice(event.currentPrice(), event.increment());
+            listener.currentPrice(
+                    event.currentPrice(),
+                    event.increment(),
+                    event.isFrom(sniperId));
         }
     }
 
@@ -28,6 +36,12 @@ public class AuctionMessageTranslator implements MessageListener {
         public String type() { return get("Event"); }
         public int currentPrice() { return getInt("CurrentPrice"); }
         public int increment() { return getInt("Increment"); }
+        private String bidder() { return get("Bidder"); }
+
+        // terrible name. come on guys...
+        public AuctionEventListener.PriceSource isFrom(String sniperId) {
+            return sniperId.equals(bidder()) ? FromSniper : FromOtherBidder;
+        }
 
         private final Map<String, String> fields = new HashMap<String, String>();
 
