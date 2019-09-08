@@ -8,7 +8,7 @@ import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class App implements SniperListener
+public class App
 {
     public static final String MAIN_WINDOW_NAME = "Auction Sniper App";
     public static final String SNIPER_STATUS_NAME = "sniper status";
@@ -42,24 +42,6 @@ public class App implements SniperListener
                 args[ARG_PASSWORD]);
 
         main.joinAuction(connection, args[ARG_ITEM_ID]);
-    }
-
-    @Override
-    public void sniperLost() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ui.showStatus(MainWindow.STATUS_LOST);
-            }
-        });
-    }
-
-    @Override
-    public void sniperBidding() {
-        SwingUtilities.invokeLater(new Runnable() {
-            public void run() {
-                ui.showStatus(MainWindow.STATUS_BIDDING);
-            }
-        });
     }
 
     private void startUserInterface() throws Exception {
@@ -135,10 +117,6 @@ public class App implements SniperListener
 
         public void sniperLost() {
             showStatus(MainWindow.STATUS_LOST);
-        }
-
-        public void sniperWinning() {
-//            showStatus(MainWindow.STATUS_WINNING);
         }
 
         private void showStatus(final String status) {
