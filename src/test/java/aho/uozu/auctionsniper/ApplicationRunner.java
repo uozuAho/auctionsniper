@@ -8,6 +8,7 @@ public class ApplicationRunner {
     public static final String STATUS_JOINING = "joining";
     public static final String STATUS_LOST = "lost";
     public static final String SNIPER_XMPP_ID = "sniper@host.xmpp.internal/Auction";
+    private static final String STATUS_WON = "won";
 
     private AuctionSniperDriver driver;
 
@@ -40,5 +41,12 @@ public class ApplicationRunner {
     public void hasShownSniperIsBidding() {
         driver.showsSniperStatus(MainWindow.STATUS_BIDDING);
     }
-}
 
+    public void hasShownSniperIsWinning() {
+        driver.showsSniperStatus(MainWindow.STATUS_WINNING);
+    }
+
+    public void showsSniperHasWonAuction() {
+        driver.showsSniperStatus(STATUS_WON);
+    }
+}
