@@ -133,7 +133,7 @@ public class App
 
         private void showStatus(final String status) {
             SwingUtilities.invokeLater(new Runnable() {
-                public void run() { ui.showStatus(status); }
+                public void run() { ui.showStatusText(status); }
             });
         }
     }
