@@ -1,9 +1,6 @@
 package aho.uozu.auctionsniper.tests;
 
-import aho.uozu.auctionsniper.Auction;
-import aho.uozu.auctionsniper.AuctionEventListener;
-import aho.uozu.auctionsniper.AuctionSniper;
-import aho.uozu.auctionsniper.SniperListener;
+import aho.uozu.auctionsniper.*;
 import org.jmock.Expectations;
 import org.jmock.States;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -31,7 +28,7 @@ public class AuctionSniperTest {
     reportsLostIfAuctionClosesWhenBidding() {
         context.checking(new Expectations() {{
             ignoring(auction);
-            allowing(sniperListener).sniperBidding();
+            allowing(sniperListener).sniperBidding(with(any(SniperState.class)));
             then(sniperState.is("bidding"));
             atLeast(1).of(sniperListener).sniperLost(); when(sniperState.is("bidding"));
         }});
@@ -55,10 +52,14 @@ public class AuctionSniperTest {
     bidsHigherAndReportsBiddingWhenNewPriceArrives() {
         final int price = 1001;
         final int increment = 25;
+        final int bid = price + increment;
+
         context.checking(new Expectations() {{
             oneOf(auction).bid(price + increment);
-            atLeast(1).of(sniperListener).sniperBidding();
+            atLeast(1).of(sniperListener).sniperBidding(
+                    new SniperState("todo: ItemId here", price, bid));
         }});
+
         sniper.currentPrice(price, increment, AuctionEventListener.PriceSource.FromOtherBidder);
     }
 
