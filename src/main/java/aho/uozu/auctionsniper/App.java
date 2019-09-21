@@ -57,9 +57,11 @@ public class App
         final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
         this.notToBeGCd = chat;
         Auction auction = new XMPPAuction(chat);
+        SniperStateDisplayer displayer = new SniperStateDisplayer();
         chat.addMessageListener(new AuctionMessageTranslator(
                 connection.getUser(),
-                new AuctionSniper(auction, new SniperStateDisplayer())));
+                new AuctionSniper(auction, displayer)));
+        displayer.sniperJoining(new SniperState(itemId, 0, 0));
         auction.join();
     }
 
@@ -112,8 +114,13 @@ public class App
     public class SniperStateDisplayer implements SniperListener {
 
         @Override
+        public void sniperJoining(SniperState sniperState) {
+            showStatus(sniperState, MainWindow.STATUS_JOINING);
+        }
+
+        @Override
         public void sniperBidding(SniperState sniperState) {
-            showStatus(MainWindow.STATUS_BIDDING);
+            showStatus(sniperState, MainWindow.STATUS_BIDDING);
         }
 
         @Override
@@ -134,6 +141,12 @@ public class App
         private void showStatus(final String status) {
             SwingUtilities.invokeLater(new Runnable() {
                 public void run() { ui.showStatusText(status); }
+            });
+        }
+
+        private void showStatus(final SniperState state, final String status) {
+            SwingUtilities.invokeLater(new Runnable() {
+                public void run() { ui.sniperStatusChanged(state, status); }
             });
         }
     }

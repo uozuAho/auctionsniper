@@ -39,16 +39,7 @@ public class MainWindow extends JFrame {
         snipers.setStatusText(statusText);
     }
 
-    public class SnipersTableModel extends AbstractTableModel {
-        public int getColumnCount() { return 1; }
-        public int getRowCount() { return 1; }
-        public Object getValueAt(int rowIndex, int columnIndex) { return statusText; }
-
-        private String statusText = STATUS_JOINING;
-
-        public void setStatusText(String newStatusText) {
-            statusText = newStatusText;
-            fireTableRowsUpdated(0, 0);
-        }
+    public void sniperStatusChanged(SniperState sniperState, String statusText) {
+        snipers.sniperStatusChanged(sniperState, statusText);
     }
 }
