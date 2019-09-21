@@ -1,7 +1,6 @@
 package aho.uozu.auctionsniper;
 
 import javax.swing.*;
-import javax.swing.table.AbstractTableModel;
 import java.awt.*;
 
 public class MainWindow extends JFrame {
@@ -35,11 +34,7 @@ public class MainWindow extends JFrame {
         return snipersTable;
     }
 
-    public void showStatusText(String statusText) {
-        snipers.setStatusText(statusText);
-    }
-
-    public void sniperStatusChanged(SniperState sniperState, String statusText) {
-        snipers.sniperStatusChanged(sniperState, statusText);
+    public void sniperStateChanged(SniperSnapshot sniperSnapshot) {
+        snipers.sniperStateChanged(sniperSnapshot);
     }
 }

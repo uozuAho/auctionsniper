@@ -60,8 +60,8 @@ public class App
         SniperStateDisplayer displayer = new SniperStateDisplayer();
         chat.addMessageListener(new AuctionMessageTranslator(
                 connection.getUser(),
-                new AuctionSniper(auction, displayer)));
-        displayer.sniperJoining(new SniperState(itemId, 0, 0));
+                new AuctionSniper(auction, displayer, itemId)));
+        displayer.sniperStateChanged(new SniperSnapshot(itemId, 0, 0, SniperState.JOINING));
         auction.join();
     }
 
@@ -114,39 +114,13 @@ public class App
     public class SniperStateDisplayer implements SniperListener {
 
         @Override
-        public void sniperJoining(SniperState sniperState) {
-            showStatus(sniperState, MainWindow.STATUS_JOINING);
+        public void sniperStateChanged(SniperSnapshot snapshot) {
+            showStatus(snapshot);
         }
 
-        @Override
-        public void sniperBidding(SniperState sniperState) {
-            showStatus(sniperState, MainWindow.STATUS_BIDDING);
-        }
-
-        @Override
-        public void sniperWinning() {
-            showStatus(MainWindow.STATUS_WINNING);
-        }
-
-        @Override
-        public void sniperWon() {
-            showStatus(MainWindow.STATUS_WON);
-        }
-
-        @Override
-        public void sniperLost() {
-            showStatus(MainWindow.STATUS_LOST);
-        }
-
-        private void showStatus(final String status) {
+        private void showStatus(final SniperSnapshot snapshot) {
             SwingUtilities.invokeLater(new Runnable() {
-                public void run() { ui.showStatusText(status); }
-            });
-        }
-
-        private void showStatus(final SniperState state, final String status) {
-            SwingUtilities.invokeLater(new Runnable() {
-                public void run() { ui.sniperStatusChanged(state, status); }
+                public void run() { ui.sniperStateChanged(snapshot); }
             });
         }
     }
