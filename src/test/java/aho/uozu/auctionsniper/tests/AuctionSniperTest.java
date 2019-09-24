@@ -33,13 +33,12 @@ public class AuctionSniperTest {
         sniper.auctionClosed();
     }
 
-    // todo: why jmock not picking up calls? they work. jmock is bad
-    // @Test
+    @Test
     public void
     reportsLostIfAuctionClosesWhenBidding() {
         context.checking(new Expectations() {{
             ignoring(auction);
-            allowing(sniperListener).sniperStateChanged(with(any(SniperSnapshot.class)));
+            allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(SniperState.BIDDING)));
             then(sniperState.is("bidding"));
             atLeast(1).of(sniperListener).sniperStateChanged(with(aSniperThatIs(SniperState.LOST)));
             when(sniperState.is("bidding"));
@@ -76,8 +75,7 @@ public class AuctionSniperTest {
         sniper.currentPrice(price, increment, AuctionEventListener.PriceSource.FromOtherBidder);
     }
 
-    // todo: figure out why this fails. Jmock is bad
-    // @Test
+    @Test
     public void
     reportsIsWinningWhenCurrentPriceComesFromSniper() {
         context.checking(new Expectations() {{
