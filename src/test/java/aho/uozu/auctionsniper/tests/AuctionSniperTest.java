@@ -82,11 +82,12 @@ public class AuctionSniperTest {
             ignoring(auction);
             allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(SniperState.BIDDING)));
             then(sniperState.is("bidding"));
-            atLeast(1).of(sniperListener).sniperStateChanged(with(aSniperThatIs(SniperState.WINNING)));
+            atLeast(1).of(sniperListener).sniperStateChanged(
+                    new SniperSnapshot(itemId, 135, 135, SniperState.WINNING));
             when(sniperState.is("bidding"));
         }});
         sniper.currentPrice(123, 12, AuctionEventListener.PriceSource.FromOtherBidder);
-        sniper.currentPrice(123, 45, AuctionEventListener.PriceSource.FromSniper);
+        sniper.currentPrice(135, 45, AuctionEventListener.PriceSource.FromSniper);
     }
 
     private Matcher<SniperSnapshot> aSniperThatIs(final SniperState state) {
