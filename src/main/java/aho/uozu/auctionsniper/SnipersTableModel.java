@@ -18,14 +18,14 @@ public class SnipersTableModel extends AbstractTableModel {
     private final static SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0, SniperState.JOINING);
 
     private static final String[] STATUS_TEXT = {
-            MainWindow.STATUS_JOINING,
-            MainWindow.STATUS_BIDDING,
-            MainWindow.STATUS_WINNING,
-            MainWindow.STATUS_LOST,
-            MainWindow.STATUS_WON,
+            "Joining",
+            "Bidding",
+            "Winning",
+            "Lost",
+            "Won"
     };
 
-    private String state = MainWindow.STATUS_JOINING;
+    private String state = textFor(SniperState.JOINING);
     private SniperSnapshot snapshot = STARTING_UP;
 
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -45,7 +45,11 @@ public class SnipersTableModel extends AbstractTableModel {
 
     public void sniperStateChanged(SniperSnapshot newSniperSnapshot) {
         snapshot = newSniperSnapshot;
-        state = STATUS_TEXT[newSniperSnapshot.state.ordinal()];
+        state = textFor(newSniperSnapshot.state);
         fireTableRowsUpdated(0, 0);
+    }
+
+    public static String textFor(SniperState state) {
+        return STATUS_TEXT[state.ordinal()];
     }
 }
