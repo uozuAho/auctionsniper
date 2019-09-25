@@ -50,4 +50,8 @@ public class SniperSnapshot {
     public SniperSnapshot lost() {
         return new SniperSnapshot(itemId, lastPrice, lastBid, SniperState.LOST);
     }
+
+    public SniperSnapshot closed() {
+        return new SniperSnapshot(itemId, lastPrice, lastBid, state.whenAuctionClosed());
+    }
 }
