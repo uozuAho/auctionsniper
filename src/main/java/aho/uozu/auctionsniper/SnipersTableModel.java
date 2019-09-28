@@ -2,7 +2,7 @@ package aho.uozu.auctionsniper;
 
 import javax.swing.table.AbstractTableModel;
 
-public class SnipersTableModel extends AbstractTableModel {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener {
     public enum Column {
         ITEM_IDENTIFIER {
             @Override public Object valueIn(SniperSnapshot snapshot) {

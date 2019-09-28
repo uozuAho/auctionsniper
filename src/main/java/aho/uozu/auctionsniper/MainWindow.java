@@ -6,10 +6,11 @@ import java.awt.*;
 public class MainWindow extends JFrame {
     public static final String SNIPERS_TABLE_NAME = "snipers";
 
-    private final SnipersTableModel snipers = new SnipersTableModel();
+    private final SnipersTableModel snipers;
 
-    public MainWindow() {
+    public MainWindow(SnipersTableModel snipers) {
         super("Auction Sniper");
+        this.snipers = snipers;
         setName(App.MAIN_WINDOW_NAME);
         fillContentPane(makeSnipersTable());
         pack();
@@ -27,9 +28,5 @@ public class MainWindow extends JFrame {
         final JTable snipersTable = new JTable(snipers);
         snipersTable.setName(SNIPERS_TABLE_NAME);
         return snipersTable;
-    }
-
-    public void sniperStateChanged(SniperSnapshot sniperSnapshot) {
-        snipers.sniperStateChanged(sniperSnapshot);
     }
 }
