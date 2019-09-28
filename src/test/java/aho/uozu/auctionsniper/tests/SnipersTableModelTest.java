@@ -1,6 +1,5 @@
 package aho.uozu.auctionsniper.tests;
 
-import aho.uozu.auctionsniper.MainWindow;
 import aho.uozu.auctionsniper.SniperSnapshot;
 import aho.uozu.auctionsniper.SniperState;
 import aho.uozu.auctionsniper.SnipersTableModel;
@@ -38,6 +37,13 @@ public class SnipersTableModelTest {
     }
 
     @Test public void
+    setsUpColumnHeadings() {
+        for (SnipersTableModel.Column column: SnipersTableModel.Column.values()) {
+            assertEquals(column.name, model.getColumnName(column.ordinal()));
+        }
+    }
+
+    @Test public void
     setsSniperValuesInColumns() {
         context.checking(new Expectations() {{
             oneOf(listener).tableChanged(with(aRowChangedEvent()));
@@ -48,7 +54,7 @@ public class SnipersTableModelTest {
         assertColumnEquals(SnipersTableModel.Column.ITEM_IDENTIFIER, "item id");
         assertColumnEquals(SnipersTableModel.Column.LAST_PRICE, 555);
         assertColumnEquals(SnipersTableModel.Column.LAST_BID, 666);
-        assertColumnEquals(SnipersTableModel.Column.SNIPER_STATUS, SnipersTableModel.textFor(SniperState.BIDDING));
+        assertColumnEquals(SnipersTableModel.Column.SNIPER_STATE, SnipersTableModel.textFor(SniperState.BIDDING));
     }
 
     private void assertColumnEquals(SnipersTableModel.Column column, Object expected) {

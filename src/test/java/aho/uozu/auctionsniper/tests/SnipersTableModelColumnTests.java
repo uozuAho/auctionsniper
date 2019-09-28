@@ -25,7 +25,7 @@ public class SnipersTableModelColumnTests {
 
     @Test public void
     columnThreeShouldBeSniperStatus() {
-        assertEquals(SnipersTableModel.Column.at(3), SnipersTableModel.Column.SNIPER_STATUS);
+        assertEquals(SnipersTableModel.Column.at(3), SnipersTableModel.Column.SNIPER_STATE);
     }
 
     @Test public void
@@ -36,6 +36,6 @@ public class SnipersTableModelColumnTests {
         assertEquals(snapshot.lastBid, SnipersTableModel.Column.LAST_BID.valueIn(snapshot));
         assertEquals(
                 SnipersTableModel.textFor(snapshot.state),
-                SnipersTableModel.Column.SNIPER_STATUS.valueIn(snapshot));
+                SnipersTableModel.Column.SNIPER_STATE.valueIn(snapshot));
     }
 }
