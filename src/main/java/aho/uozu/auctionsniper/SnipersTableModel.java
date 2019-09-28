@@ -25,7 +25,6 @@ public class SnipersTableModel extends AbstractTableModel {
             "Won"
     };
 
-    private String state = textFor(SniperState.JOINING);
     private SniperSnapshot snapshot = STARTING_UP;
 
     public Object getValueAt(int rowIndex, int columnIndex) {
@@ -37,7 +36,7 @@ public class SnipersTableModel extends AbstractTableModel {
             case LAST_BID:
                 return snapshot.lastBid;
             case SNIPER_STATUS:
-                return state;
+                return textFor(snapshot.state);
             default:
                 throw new IllegalArgumentException("No column at " + columnIndex);
         }
@@ -45,7 +44,6 @@ public class SnipersTableModel extends AbstractTableModel {
 
     public void sniperStateChanged(SniperSnapshot newSniperSnapshot) {
         snapshot = newSniperSnapshot;
-        state = textFor(newSniperSnapshot.state);
         fireTableRowsUpdated(0, 0);
     }
 
