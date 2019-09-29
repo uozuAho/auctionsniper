@@ -7,6 +7,8 @@ import org.jivesoftware.smack.XMPPException;
 import javax.swing.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class App
 {
@@ -27,7 +29,7 @@ public class App
     private MainWindow ui;
 
     @SuppressWarnings("unused")
-    private Chat notToBeGCd;
+    private List<Chat> notToBeGCd = new ArrayList<>();
 
     private App() throws Exception {
         startUserInterface();
@@ -41,7 +43,11 @@ public class App
                 args[ARG_USERNAME],
                 args[ARG_PASSWORD]);
 
-        main.joinAuction(connection, args[ARG_ITEM_ID]);
+        main.disconnectWhenUICloses(connection);
+
+        for (int i = 3; i < args.length; i++) {
+            main.joinAuction(connection, args[i]);
+        }
     }
 
     private void startUserInterface() throws Exception {
@@ -49,9 +55,8 @@ public class App
     }
 
     private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
-        disconnectWhenUICloses(connection);
         final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
-        this.notToBeGCd = chat;
+        this.notToBeGCd.add(chat);
         Auction auction = new XMPPAuction(chat);
         var listenerForTable = new SwingThreadSniperListener(snipers);
         chat.addMessageListener(new AuctionMessageTranslator(
