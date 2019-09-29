@@ -2,6 +2,7 @@ package aho.uozu.auctionsniper.tests;
 
 import aho.uozu.auctionsniper.SniperSnapshot;
 import aho.uozu.auctionsniper.SniperState;
+import aho.uozu.auctionsniper.SnipersTableColumn;
 import aho.uozu.auctionsniper.SnipersTableModel;
 import org.hamcrest.Matcher;
 import org.jmock.Expectations;
@@ -33,12 +34,12 @@ public class SnipersTableModelTest {
     @Test
     public void
     hasEnoughColumns() {
-        assertThat(model.getColumnCount(), equalTo(SnipersTableModel.Column.values().length));
+        assertThat(model.getColumnCount(), equalTo(SnipersTableColumn.values().length));
     }
 
     @Test public void
     setsUpColumnHeadings() {
-        for (SnipersTableModel.Column column: SnipersTableModel.Column.values()) {
+        for (SnipersTableColumn column: SnipersTableColumn.values()) {
             assertEquals(column.name, model.getColumnName(column.ordinal()));
         }
     }
@@ -51,13 +52,13 @@ public class SnipersTableModelTest {
 
         model.sniperStateChanged(new SniperSnapshot("item id", 555, 666, SniperState.BIDDING));
 
-        assertColumnEquals(SnipersTableModel.Column.ITEM_IDENTIFIER, "item id");
-        assertColumnEquals(SnipersTableModel.Column.LAST_PRICE, 555);
-        assertColumnEquals(SnipersTableModel.Column.LAST_BID, 666);
-        assertColumnEquals(SnipersTableModel.Column.SNIPER_STATE, SnipersTableModel.textFor(SniperState.BIDDING));
+        assertColumnEquals(SnipersTableColumn.ITEM_IDENTIFIER, "item id");
+        assertColumnEquals(SnipersTableColumn.LAST_PRICE, 555);
+        assertColumnEquals(SnipersTableColumn.LAST_BID, 666);
+        assertColumnEquals(SnipersTableColumn.SNIPER_STATE, SnipersTableModel.textFor(SniperState.BIDDING));
     }
 
-    private void assertColumnEquals(SnipersTableModel.Column column, Object expected) {
+    private void assertColumnEquals(SnipersTableColumn column, Object expected) {
         final int rowIndex = 0;
         final int columnIndex = column.ordinal();
         assertEquals(expected, model.getValueAt(rowIndex, columnIndex));
