@@ -47,7 +47,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
     private int getRowOf(SniperSnapshot snapshot) {
         for (int i = 0; i < snapshotRows.size(); i++) {
-            if (snapshot.itemId == snapshotRows.get(i).itemId) {
+            if (snapshotRows.get(i).isForSameItemAs(snapshot)) {
                 return i;
             }
         }
