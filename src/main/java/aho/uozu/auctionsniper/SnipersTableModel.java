@@ -1,5 +1,7 @@
 package aho.uozu.auctionsniper;
 
+import com.objogate.exception.Defect;
+
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +51,6 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
                 return i;
             }
         }
-        throw new IllegalStateException("no matching row with item id: " + snapshot.itemId);
+        throw new Defect("no matching row with item id: " + snapshot.itemId);
     }
 }

@@ -3,6 +3,7 @@ package aho.uozu.auctionsniper.tests;
 import aho.uozu.auctionsniper.SniperSnapshot;
 import aho.uozu.auctionsniper.SnipersTableColumn;
 import aho.uozu.auctionsniper.SnipersTableModel;
+import com.objogate.exception.Defect;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeMatcher;
@@ -95,6 +96,16 @@ public class SnipersTableModelTest {
         tableModel.sniperStateChanged(joining1.winning(123));
 
         assertEquals("123", cellValue(1, SnipersTableColumn.LAST_PRICE));
+    }
+
+    @Test(expected = Defect.class)
+    public void
+    throwsDefectIfNoExistingSniperForAnUpdate() {
+        context.checking(new Expectations() { {
+            ignoring(listener);
+        }});
+        tableModel.addSniper(SniperSnapshot.joining("item 0"));
+        tableModel.sniperStateChanged(SniperSnapshot.joining("this doesn't exist"));
     }
 
     private String cellValue(int i, SnipersTableColumn column) {
