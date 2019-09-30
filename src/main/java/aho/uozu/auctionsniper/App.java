@@ -53,7 +53,8 @@ public class App
         SwingUtilities.invokeAndWait(() -> ui = new MainWindow(snipers));
     }
 
-    private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
+    private void joinAuction(XMPPConnection connection, String itemId) throws Exception {
+        safelyAddItemToModel(itemId);
         final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
         this.notToBeGCd.add(chat);
         Auction auction = new XMPPAuction(chat);
@@ -63,6 +64,10 @@ public class App
                 new AuctionSniper(auction, listenerForTable, itemId)));
         listenerForTable.sniperStateChanged(new SniperSnapshot(itemId, 0, 0, SniperState.JOINING));
         auction.join();
+    }
+
+    private void safelyAddItemToModel(final String itemId) throws Exception {
+        SwingUtilities.invokeAndWait(() -> snipers.addSniper(SniperSnapshot.joining(itemId)));
     }
 
     private static XMPPConnection connectTo(String hostname, String username, String password) throws XMPPException
