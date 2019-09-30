@@ -28,9 +28,9 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
     }
 
     public void sniperStateChanged(SniperSnapshot newSniperSnapshot) {
-        // todo: hack to get tests passing
-        snapshotRows.set(0, newSniperSnapshot);
-        fireTableRowsUpdated(0, 0);
+        var rowNum = getRowOf(newSniperSnapshot);
+        snapshotRows.set(rowNum, newSniperSnapshot);
+        fireTableRowsUpdated(rowNum, rowNum);
     }
 
     public static String textFor(SniperState state) {
@@ -41,5 +41,14 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
         snapshotRows.add(sniperSnapshot);
         var row = snapshotRows.size() - 1;
         fireTableRowsInserted(row, row);
+    }
+
+    private int getRowOf(SniperSnapshot snapshot) {
+        for (int i = 0; i < snapshotRows.size(); i++) {
+            if (snapshot.itemId == snapshotRows.get(i).itemId) {
+                return i;
+            }
+        }
+        throw new IllegalStateException("no matching row with item id: " + snapshot.itemId);
     }
 }

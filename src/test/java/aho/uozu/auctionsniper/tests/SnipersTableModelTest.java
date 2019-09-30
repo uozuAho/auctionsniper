@@ -72,6 +72,35 @@ public class SnipersTableModelTest {
         assertRowMatchesSnapshot(0, joining);
     }
 
+    @Test public void
+    holdsSnipersInAdditionOrder() {
+        context.checking(new Expectations() { {
+            ignoring(listener);
+        }});
+        tableModel.addSniper(SniperSnapshot.joining("item 0"));
+        tableModel.addSniper(SniperSnapshot.joining("item 1"));
+
+        assertEquals("item 0", cellValue(0, SnipersTableColumn.ITEM_IDENTIFIER));
+        assertEquals("item 1", cellValue(1, SnipersTableColumn.ITEM_IDENTIFIER));
+    }
+
+    @Test public void
+    updatesCorrectRowForSniper() {
+        context.checking(new Expectations() { {
+            ignoring(listener);
+        }});
+        tableModel.addSniper(SniperSnapshot.joining("item 0"));
+        var joining1 = SniperSnapshot.joining("item 1");
+        tableModel.addSniper(joining1);
+        tableModel.sniperStateChanged(joining1.winning(123));
+
+        assertEquals("123", cellValue(1, SnipersTableColumn.LAST_PRICE));
+    }
+
+    private String cellValue(int i, SnipersTableColumn column) {
+        return tableModel.getValueAt(i, column.ordinal()).toString();
+    }
+
     private void assertRowMatchesSnapshot(int row, SniperSnapshot snapshot) {
         assertCellEquals(row, SnipersTableColumn.ITEM_IDENTIFIER, snapshot.itemId);
         assertCellEquals(row, SnipersTableColumn.LAST_PRICE, snapshot.lastPrice);
