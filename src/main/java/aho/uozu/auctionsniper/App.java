@@ -43,31 +43,27 @@ public class App
                 args[ARG_PASSWORD]);
 
         main.disconnectWhenUICloses(connection);
+        main.addUserRequestListenerFor(connection);
+    }
 
-        for (int i = 3; i < args.length; i++) {
-            main.joinAuction(connection, args[i]);
-        }
+    private void addUserRequestListenerFor(final XMPPConnection connection) {
+        ui.addUserRequestListener(new UserRequestListener() {
+            public void joinAuction(String itemId) {
+                snipers.addSniper(SniperSnapshot.joining(itemId));
+                Chat chat = connection.getChatManager()
+                        .createChat(auctionId(itemId, connection), null);
+                notToBeGCd.add(chat);
+                Auction auction = new XMPPAuction(chat);
+                chat.addMessageListener(
+                        new AuctionMessageTranslator(connection.getUser(),
+                                new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId)));
+                auction.join();
+            }
+        });
     }
 
     private void startUserInterface() throws Exception {
         SwingUtilities.invokeAndWait(() -> ui = new MainWindow(snipers));
-    }
-
-    private void joinAuction(XMPPConnection connection, String itemId) throws Exception {
-        safelyAddItemToModel(itemId);
-        final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
-        this.notToBeGCd.add(chat);
-        Auction auction = new XMPPAuction(chat);
-        var listenerForTable = new SwingThreadSniperListener(snipers);
-        chat.addMessageListener(new AuctionMessageTranslator(
-                connection.getUser(),
-                new AuctionSniper(auction, listenerForTable, itemId)));
-        listenerForTable.sniperStateChanged(new SniperSnapshot(itemId, 0, 0, SniperState.JOINING));
-        auction.join();
-    }
-
-    private void safelyAddItemToModel(final String itemId) throws Exception {
-        SwingUtilities.invokeAndWait(() -> snipers.addSniper(SniperSnapshot.joining(itemId)));
     }
 
     private static XMPPConnection connectTo(String hostname, String username, String password) throws XMPPException

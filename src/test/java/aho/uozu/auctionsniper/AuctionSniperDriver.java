@@ -11,9 +11,9 @@ import static com.objogate.wl.swing.matcher.IterableComponentsMatcher.matching;
 import static com.objogate.wl.swing.matcher.JLabelTextMatcher.withLabelText;
 import static java.lang.String.valueOf;
 
-class AuctionSniperDriver extends JFrameDriver {
+public class AuctionSniperDriver extends JFrameDriver {
 
-    AuctionSniperDriver(int timeoutMillis) {
+    public AuctionSniperDriver(int timeoutMillis) {
         super(new GesturePerformer(),
                 JFrameDriver.topLevelFrame(
                         named(App.MAIN_WINDOW_NAME),
