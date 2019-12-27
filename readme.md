@@ -20,6 +20,8 @@ Following along the example in "Growing OO software guided by tests".
 
 # To do
 
+- e2e tests fail for unknown reason: auction items not appearing
+  in window. why? tests should say.
 - get rid of the smack-config error messages on each test run
 - install, configure and run openfire automatically (docker??)
 - check that fresh checkout can build without intellij
