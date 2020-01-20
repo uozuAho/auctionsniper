@@ -1,6 +1,6 @@
 package aho.uozu.auctionsniper;
 
-import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 

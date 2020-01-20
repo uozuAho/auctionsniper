@@ -1,6 +1,6 @@
 package aho.uozu.auctionsniper;
 
-import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.chat.Chat;
 import org.jivesoftware.smack.XMPPException;
 
 public class XMPPAuction implements Auction {
